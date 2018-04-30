@@ -68,7 +68,7 @@ class ChildrenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'data created successfully');
-            return $this->redirect(['@common/views/children/view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             // var_dump($model->getErrors());exit;
         }
@@ -90,7 +90,7 @@ class ChildrenController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['@common/views/children/view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('@common/views/children/update', [

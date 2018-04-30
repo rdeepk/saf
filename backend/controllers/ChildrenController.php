@@ -67,7 +67,10 @@ class ChildrenController extends Controller
         $model = new Children();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'data created successfully');
             return $this->redirect(['@common/views/children/view', 'id' => $model->id]);
+        } else {
+            // var_dump($model->getErrors());exit;
         }
 
         return $this->render('@common/views/children/create', [

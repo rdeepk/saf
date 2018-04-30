@@ -3,13 +3,15 @@
 namespace backend\models;
 
 use Yii;
-use common\models\User;
+
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "children".
  *
  * @property int $id
- * @property int $user_id
  * @property string $code
  * @property string $old_code
  * @property string $name
@@ -39,7 +41,7 @@ use common\models\User;
  *
  * @property User $user
  */
-class Children extends \yii\db\ActiveRecord
+class Children extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -50,19 +52,36 @@ class Children extends \yii\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],           
+        ];
+     }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['user_id', 'code', 'old_code', 'name', 'grade', 'city', 'district', 'sponsered', 'school_id', 'created_at', 'updated_at'], 'required'],
-            [['user_id', 'grade', 'father_id', 'mother_id', 'district', 'phone_no', 'water_filter_year', 'wash_year', 'field_officer_id', 'year_graduated', 'sponsered', 'sponser_id', 'school_id', 'created_at', 'updated_at'], 'integer'],
+            [['code', 'name', 'grade', 'city', 'district', 'sponsered'], 'required'],
+            [['grade', 'father_id', 'mother_id', 'district', 'phone_no', 'water_filter_year', 'wash_year', 'field_officer_id', 'year_graduated', 'sponsered', 'sponser_id', 'school_id', 'created_at', 'updated_at'], 'integer'],
             [['gender', 'notes'], 'string'],
             [['gpa', 'yearly_school_fee'], 'number'],
             [['approval_date', 'sponsership_start_date'], 'safe'],
             [['code', 'old_code', 'name', 'race', 'city', 'medical_aid'], 'string', 'max' => 255],
             [['code'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            // ['exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -73,7 +92,6 @@ class Children extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
             'code' => 'Code',
             'old_code' => 'Old Code',
             'name' => 'Name',
@@ -106,8 +124,8 @@ class Children extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
+    // public function getUser()
+    // {
+    //     return $this->hasOne(User::className(), ['id' => 'user_id']);
+    // }
 }

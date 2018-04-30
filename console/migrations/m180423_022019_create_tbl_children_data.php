@@ -20,9 +20,8 @@ class m180423_022019_create_tbl_children_data extends Migration
 
         $this->createTable('{{%children}}', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
             'code' => $this->string()->notNull()->unique(),
-            'old_code' => $this->string()->notNull(),
+            'old_code' => $this->string(),
             'name' => $this->string()->notNull(),
             'gender' => 'ENUM("male", "female") NOT NULL DEFAULT "male"',
             'race' => $this->string(),
@@ -31,7 +30,7 @@ class m180423_022019_create_tbl_children_data extends Migration
             'father_id' => $this->integer(),
             'mother_id' => $this->integer(),
             'city' => $this->string()->notNull(),
-            'district' => $this->integer()->notNull(),
+            'district' => $this->string()->notNull(),
             'phone_no' => $this->integer(),
             'approval_date' => $this->date(),
             'sponsership_start_date' => $this->date(),
@@ -44,12 +43,12 @@ class m180423_022019_create_tbl_children_data extends Migration
             'medical_aid' => $this->string(),
             'sponsered' => $this->integer()->notNull(),
             'sponser_id' => $this->integer(),
-            'school_id' => $this->integer()->notNull(),
+            'school_id' => $this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
-        $this->addForeignKey(
-            'fk-user_id', 'children', 'user_id', 'user', 'id', 'CASCADE');
+        // $this->addForeignKey(
+        //     'fk-user_id', 'children', 'user_id', 'user', 'id', 'CASCADE');
 
     }
 

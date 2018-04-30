@@ -18,7 +18,7 @@ class ChildrenSearch extends Children
     public function rules()
     {
         return [
-            [['id', 'user_id', 'grade', 'father_id', 'mother_id', 'district', 'phone_no', 'water_filter_year', 'wash_year', 'field_officer_id', 'year_graduated', 'sponsered', 'sponser_id', 'school_id', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'grade', 'father_id', 'mother_id', 'district', 'phone_no', 'water_filter_year', 'wash_year', 'field_officer_id', 'year_graduated', 'sponsered', 'sponser_id', 'school_id', 'created_at', 'updated_at'], 'integer'],
             [['code', 'old_code', 'name', 'gender', 'race', 'city', 'approval_date', 'sponsership_start_date', 'notes', 'medical_aid'], 'safe'],
             [['gpa', 'yearly_school_fee'], 'number'],
         ];
@@ -61,7 +61,6 @@ class ChildrenSearch extends Children
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'grade' => $this->grade,
             'gpa' => $this->gpa,
             'father_id' => $this->father_id,
